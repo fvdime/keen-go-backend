@@ -20,6 +20,7 @@ func main() {
 
 	routes.AuthRoutes(router)
 	routes.UserRoutes(router)
+	routes.PostRoutes(router)
 
 	router.GET("/api", func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{"SUCCESS": "Access granted!"})

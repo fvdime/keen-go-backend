@@ -2,13 +2,10 @@ package models
 
 import (
 	"time"
-
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // so struct is basically converter between db and go. db understand json, go does not understand json
 type User struct {
-	ID            primitive.ObjectID `bson:"_id"`
 	First_Name    *string            `json:"first_name" validate:"required,min=2,max=100"`
 	Last_Name     *string            `json:"last_name" validate:"required,min=2,max=100"`
 	Password      *string            `json:"password" validate:"required,min=6"`
