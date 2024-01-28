@@ -49,16 +49,21 @@ func GenerateTokens(email string, firstName string, lastName string, userType st
 		},
 	}
 
-	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(JWT_KEY))
-	refreshToken, err := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshClaims).SignedString([]byte(JWT_KEY))
-
-	if err != nil {
-		log.Panic(err)
-		return
+	token, tokenErr := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(JWT_KEY))
+	if tokenErr != nil {
+		log.Panic(tokenErr)
+		return "", "", tokenErr
 	}
 
-	return token, refreshToken, err
+	refreshToken, refreshErr := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshClaims).SignedString([]byte(JWT_KEY))
+	if refreshErr != nil {
+		log.Panic(refreshErr)
+		return "", "", refreshErr
+	}
+
+	return token, refreshToken, nil
 }
+
 
 func UpdateTokens(signedToken string, signedRefreshToken string, userId string) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
